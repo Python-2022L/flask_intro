@@ -1,18 +1,4 @@
-import json
+import requests
 
-def my_decorator(func):
-    
-    def wrapper(fname):
-        if fname.endswith('.json'):
-            return func()
-        else:
-            return "Is not Json"
-    return wrapper
-
-@my_decorator
-def toDict(fname):
-    data = open(fname, 'r').read()
-    return json.loads(data)
-
-print(toDict('data.csv'))
-# is not json file
+r = requests.get('http://127.0.0.1:4180/')
+print(r.json())
