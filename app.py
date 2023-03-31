@@ -1,24 +1,18 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
 @app.route("/")
 def main():
-    return """
-    /home
-    /about
-    """
+    return "HOME"
 
-@app.route("/product")
-def home():
-    return {
-        "name":"Samsung",
-        "color":"blue",
-        "ram":64
-    }
+@app.route("/api/get-sum")
+def sum():
+    args = request.args
+    a = args.get('a')
+    b = args.get('b')
+    
+    return {"sum": int(a) + int(b)}
 
-@app.route('/about')
-def about():
-    return "About Page"
-
-app.run(debug=True, port='4180')
+if __name__ == '__main__':
+    app.run(debug=True, port='8080')
