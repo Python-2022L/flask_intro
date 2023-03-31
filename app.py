@@ -9,8 +9,8 @@ def main():
 @app.route("/api/get-sum")
 def sum():
     args = request.args
-    a = args.get('a')
-    b = args.get('b')
+    a = args.get('a', 0)
+    b = args.get('b', 0)
     
     return {"sum": int(a) + int(b)}
 
