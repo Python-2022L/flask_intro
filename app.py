@@ -15,6 +15,11 @@ def main():
     """
     return html
 
+@app.route("/api/<float:n>")
+def hi(n):
+    print(type(n))
+    return {"number":n}
+
 @app.route("/api/get-sum")
 def sum():
     print(request.form)
