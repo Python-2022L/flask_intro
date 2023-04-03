@@ -1,33 +1,30 @@
 from flask import Flask, request
-
+from tinydb import TinyDB, Query
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/api/product")
 def main():
-    html = """
-    <form action="http://127.0.0.1:8080/api/get-sum">
-    <label>a:</label><br>
-    <input type="text"  name="a" value="0"><br>
-    <label>b:</label><br>
-    <input type="text" name="b" value="0"><br><br>
-    <input type="submit" value="Submit">
-    </form>
-    """
-    return html
+    db = TinyDB('db.json')
+    product = db.table('grocery')
+    table = """<table border="1|1">
+    <tr>
+        <th>name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Type</th>
+    </tr>"""
 
-@app.route("/api/<float:n>")
-def hi(n):
-    print(type(n))
-    return {"number":n}
+    for item in product:
+        table += f"""
+        <tr>
+            <td>{item['name']}</td>
+            <td>{item['quantity']}</td>
+            <td>{item['price']}</td>
+            <td>{item['type']}</td>
+        </tr>"""
 
-@app.route("/api/get-sum")
-def sum():
-    print(request.form)
-    args = request.args
-    a = args.get('a', 0)
-    b = args.get('b', 0)
-    
-    return {"sum": int(a) + int(b)}
+    table += "</table>"
+    return table
 
 if __name__ == '__main__':
     app.run(debug=True, port='8080')
